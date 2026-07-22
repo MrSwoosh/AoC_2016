@@ -1,5 +1,5 @@
 """
-Possible solution for Advent of Code 2016.
+Possible solution for Advent of Code 2016 day 11.
 https://adventofcode.com/2016/day/11
 Date: 04-02-2026
 Complexity:
