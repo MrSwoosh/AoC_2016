@@ -109,7 +109,7 @@ class DataHandler:
         In production-grade code, file access should be wrapped
         in proper exception handling.
         """
-        self.file_location = "test_input" if test_scenario else "input"
+        self.file_location = "test_input" if test_scenario else "dataset_day_11"
 
     def etl(self) -> dict[str, list[int]]:
         """
