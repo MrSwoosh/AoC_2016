@@ -22,7 +22,7 @@ Time complexity:
     First solution: O(I)
         I = number of instructions
     Second solution: O(S)
-        S = total number of traveled steps
+        S = number of traveled steps
 
 Possible improvements:
     find_first_solution()
