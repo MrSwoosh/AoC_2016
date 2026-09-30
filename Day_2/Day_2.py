@@ -18,27 +18,23 @@ Possible improvements:
 """
 
 
-# Date: 23-9-2025
-
-"""
-Loads the dataset
-"""
 def load_data() -> list[str]:
+    """
+    Loads the dataset
+    """
     with open("dataset_day_2", "r") as file:
         return [line.strip() for line in file.readlines()]
 
 
-"""
-Solution to part 1.
-
-Takes in a list with instructions.
-For each instruction, performs the moves step by step,
-and validates the position on the keypad.
-Returns the resulting 5 digit code to the keypad.
-"""
-
 def solve_part_1(instructions: list[str]) -> str:
+    """
+    Solution to part 1.
 
+    Takes in a list with instructions.
+    For each instruction, performs the moves step by step,
+    and validates the position on the keypad.
+    Returns the resulting 5 digit code to the keypad.
+    """
     keypad = [
         [1, 2, 3],
         [4, 5, 6],
@@ -72,19 +68,17 @@ def solve_part_1(instructions: list[str]) -> str:
     return code
 
 
-
-"""
-Solution to part 2.
-
-Similar to part 1, but uses a more complex keypad.
-
-Takes in a list with instructions.
-For each instruction, performs the moves step by step,
-and validates the position on the keypad.
-Returns the resulting 5 digit code to the keypad.
-"""
 def solve_part_2(instructions: list[str]) -> str:
+    """
+    Solution to part 2.
 
+    Similar to part 1, but uses a more complex keypad.
+
+    Takes in a list with instructions.
+    For each instruction, performs the moves step by step,
+    and validates the position on the keypad.
+    Returns the resulting 5 digit code to the keypad.
+    """
     keypad = [
         ["0", "0", "1", "0", "0"],
         ["0", "2", "3", "4", "0"],

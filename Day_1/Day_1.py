@@ -47,30 +47,30 @@ Possible improvements:
 test = False
 
 
-"""
-Load the puzzle input from disk.
-
-Returns:
-    List of navigation instructions.
-"""
 def load_from_file() -> list[str]:
+    """
+    Load the puzzle input from disk.
+
+    Returns:
+        List of navigation instructions.
+    """
     with open("dataset_day_1", "r") as file:
         return file.readline().strip().split(", ")
 
 
-"""
-Execute all navigation instructions.
 
-Prints the Manhattan distance for part 1 and returns the end position after each instruction for use in part 2.
-
-Args:
-    data: Navigation instructions.
-
-Returns:
-    List with end positions of every instruction.
-"""
 def find_first_solution(data: list[str]) -> list[tuple[int, int]]:
+    """
+    Execute all navigation instructions.
 
+    Prints the Manhattan distance for part 1 and returns the end position after each instruction for use in part 2.
+
+    Args:
+        data: Navigation instructions.
+
+    Returns:
+        List with end positions of every instruction.
+    """
     positions_seen = []
 
     adjustment = {'L': -1, 'R': 1}
@@ -104,17 +104,17 @@ def find_first_solution(data: list[str]) -> list[tuple[int, int]]:
     return positions_seen
 
 
-"""
-Find the first location that is visited twice.
 
-Prints the Manhattan distance to that location.
-
-Args:
-    positions_visited:
-        End position after every instruction.
-"""
 def find_second_solution(positions_visited: list[tuple[int, int]]) -> None:
+    """
+    Find the first location that is visited twice.
 
+    Prints the Manhattan distance to that location.
+
+    Args:
+        positions_visited:
+            End position after every instruction.
+    """
     x, y = 0, 0
 
     visited = {(x, y)}

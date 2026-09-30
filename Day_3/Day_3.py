@@ -21,47 +21,48 @@ Possible improvements:
 """
 
 
-"""
-    Load and transform data from the data file.
-    Input: file containing rows with numbers in string.
-    Output: list of lists of integers.
-    Converts numbers regardless of whitespace length.
-    Time complexity: O(n) where n = number of rows in input file
-"""
+
 def load_data() -> list[list[int]]:
+    """
+        Load and transform data from the data file.
+        Input: file containing rows with numbers in string.
+        Output: list of lists of integers.
+        Converts numbers regardless of whitespace length.
+        Time complexity: O(n) where n = number of rows in input file
+    """
     with open("dataset_day_3", "r") as file:
         return [list(map(int, line.split())) for line in file]
 
 
-"""
-    Searches for first solution.
-    Checks for each element if all combinations of any 2 numbers > remaining number.
-
-    Time complexity: O(n) where n = number of elements in list.
-"""
 def find_first_solution(measurements_list: list[list[int]]) -> int:
+    """
+        Searches for first solution.
+        Checks for each element if all combinations of any 2 numbers > remaining number.
+
+        Time complexity: O(n) where n = number of elements in list.
+    """
     return sum(a + b > c and a + c > b and b + c > a for a, b, c in measurements_list)
 
 
-"""
-    Searches for second solution.
-    Creates a new list from original list,
-    by popping 3 sequential elements from the list and combining their respective indexes into a new element.
-    Effectively forming a 3x3 matrix out of 3 original elements and transposing it.
-    
-    The function for the first solution is used, but with the new measurements list.
-    
-    Time complexity creating the new list: O((n / 3) * 3) -> O(n)
-    Time complexity searching the solution: O(n) where n = number of elements in list.
-"""
 def find_second_solution(measurements_list: list[list[int]]) -> int:
+    """
+        Searches for second solution.
+        Creates a new list from original list,
+        by popping 3 sequential elements from the list and combining their respective indexes into a new element.
+        Effectively forming a 3x3 matrix out of 3 original elements and transposing it.
+
+        The function for the first solution is used, but with the new measurements list.
+
+        Time complexity creating the new list: O((n / 3) * 3) -> O(n)
+        Time complexity searching the solution: O(n) where n = number of elements in list.
+    """
     new_measurements_list = []
     for i in range(0, len(measurements_list), 3):
         for j in range(3):
-            new_measurements_list.append([measurements_list[i][j], measurements_list[i+1][j], measurements_list[i+2][j]])
+            new_measurements_list.append(
+                [measurements_list[i][j], measurements_list[i + 1][j], measurements_list[i + 2][j]])
 
     return find_first_solution(new_measurements_list)
-
 
 
 if __name__ == "__main__":
