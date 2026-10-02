@@ -17,7 +17,7 @@ Description:
     of appearances.
 
 Time complexity:
-    load_data():            O(n)
+    load_data():            O(n * m)
     create_dictionary():    O(m * c)   -> O(m)
     build_dictionary:       O(n * m)
     Solve_part_1:           O(m * c)   -> O(m)
@@ -26,7 +26,7 @@ Time complexity:
         Where:
             n = number of lines
             m = number of columns
-            c + number of characters in (lower case) alphabet
+            c + number of characters in (lower case) alphabet, which is a constant
 
 Possible improvements:
 
@@ -50,12 +50,12 @@ def solve_part_1(dictionary: dict[int, dict[str, int]]) -> str:
     :param dictionary: Holds a dictionary of character appearances for each column
     :return: Combined string of characters with the highest appearances for each column
     """
-    result = ''
+    result = []
 
     for i in range(len(data[0])):
-        result += max(dictionary[i], key=dictionary[i].get)
+        result.append(max(dictionary[i], key=dictionary[i].get))
 
-    return result
+    return ''.join(result)
 
 
 def solve_part_2(dictionary: dict[int, dict[str, int]]) -> str:
@@ -66,12 +66,12 @@ def solve_part_2(dictionary: dict[int, dict[str, int]]) -> str:
         :param dictionary: Holds a dictionary of character appearances for each column
         :return: Combined string of characters with the lowest appearances for each column
         """
-    result = ''
+    result = []
 
     for i in range(len(data[0])):
-        result += min(dictionary[i], key=dictionary[i].get)
+        result.append(min(dictionary[i], key=dictionary[i].get))
 
-    return result
+    return ''.join(result)
 
 
 def create_dictionary(num_columns: int) -> dict[int, dict[str, int]]:
