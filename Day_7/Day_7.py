@@ -4,6 +4,7 @@ https://adventofcode.com/2016/day/7
 
 Date: October 2026
 
+
 Description:
     A list of IPv7 addresses is given. An address consists of supernet
     sequences and hypernet sequences. Hypernet sequences are enclosed
@@ -21,9 +22,10 @@ Description:
 
     The algorithm first separates every IP address into its supernet
     and hypernet sequences using split_ip(). It then searches both
-    groups for an ABBA pattern using has_abba(). An IP is counted when
-    at least one ABBA occurs in a supernet sequence and none occurs in
-    a hypernet sequence.
+    groups for an ABBA pattern using has_abba(). First in the hypernet sequence,
+    to reduce the number of iterations needed; if the hypernet sequence contains a pattern,
+    the address can't support TLS. An IP is counted when at least one ABBA occurs in
+    a supernet sequence and none occurs in a hypernet sequence.
 
     Part 2
     An IPv7 address supports SSL (Super-Secret Listening) when a
@@ -37,11 +39,9 @@ Description:
 
     The algorithm first separates every IP address into supernet and
     hypernet sequences. get_pattern() then extracts all ABA patterns
-    from the supernets and all corresponding BAB patterns from the
-    hypernets. The two sets are compared by compare_patterns(). If a
+    from the supernets and all BAB patterns from the hypernets.
+    The two sets are compared by compare_patterns(). If a
     pattern occurs in both sets, the IP supports SSL.
-
-    Part 2
 
 
 Time complexity:
@@ -59,7 +59,6 @@ Time complexity:
 
 
 Possible improvements:
-    Add type annotations to all methods
     solve_part_1/2 both split the IP address, should be reduced to 1 split
     Make names more descriptive
     split_ip() could use regex,
@@ -70,9 +69,7 @@ Possible improvements:
 
 def load_data() -> list[str]:
     """
-    Every line in the input file is read and stripped. If there are
-    n lines and each line has a maximum length of m, processing the
-    complete input requires O(n * m) time.
+    Every line in the input file is read and stripped.
     :return: List of strings
     """
     with open('dataset_day_7') as file:
@@ -86,15 +83,15 @@ def solve_part_1(ip_data: list[str]) -> int:
     has_abba() together inspect all characters in the resulting
     sequences. Because the sequences together contain O(m)
     characters, this also takes O(m) time per IP address.
-    :param ip_data:
-    :return:
+    :param ip_data: List op IP addresses (string)
+    :return: solution to part 1 (int)
     """
     tls_ips = 0
     for ip in ip_data:
-        address_parts, hypernets = split_ip(ip)
+        supernets, hypernets = split_ip(ip)
 
         if not any(has_abba(hypernet) for hypernet in hypernets):
-            if any(has_abba(address_part) for address_part in address_parts):
+            if any(has_abba(address_part) for address_part in supernets):
                 tls_ips += 1
 
     return tls_ips
@@ -103,10 +100,11 @@ def solve_part_1(ip_data: list[str]) -> int:
 def has_abba(string: str) -> bool:
     """
     The function checks every group of four consecutive characters.
+    Searches for string format '<x><y><y><x>'
     For a string of length m, there are m - 3 possible starting
     positions. Each position requires a constant amount of work.
-    :param string:
-    :return:
+    :param string: Part of IP address (string)
+    :return: Whether the string contains a valid pattern consecutive characters (bool)
     """
     for i in range(len(string) - 3):
         if string[i] == string[i + 3]:
@@ -124,15 +122,15 @@ def solve_part_2(ip_data: list[str]) -> int:
     contain O(m) characters. compare_patterns() performs set
     membership checks, which are O(1) on average, for each extracted
     pattern.
-    :param ip_data:
-    :return:
+    :param ip_data: List op IP addresses (string)
+    :return: solution to part 1 (int)
     """
     ssl_ips = 0
     for ip in ip_data:
         supernets, hypernets = split_ip(ip)
 
-        supernet_patterns = get_pattern(supernets)
-        hypernet_patterns = get_pattern(hypernets, True)
+        supernet_patterns = get_patterns(supernets)
+        hypernet_patterns = get_patterns(hypernets, True)
 
         if compare_patterns(supernet_patterns, hypernet_patterns):
             ssl_ips += 1
@@ -140,14 +138,16 @@ def solve_part_2(ip_data: list[str]) -> int:
     return ssl_ips
 
 
-def get_pattern(nets, hyp=False):
+def get_patterns(nets: list[str], hyp=False) -> set[str]:
     """
     The function examines every group of three consecutive
     characters in every supplied sequence. If a valid ABA is found,
-    it is added to a set. Each check requires constant time.
-    :param nets:
-    :param hyp:
-    :return:
+    it is added to a set. If a pattern is found in a hypernet sequence,
+    its pattern is flipt from '<x><y><x>' tot '<y><x><y>' for easy
+    comparison by compare_patterns().
+    :param nets: List of supernet sequences
+    :param hyp: List of hypernet sequences
+    :return: Set of (string) patterns
     """
     patterns = set()
 
@@ -162,14 +162,14 @@ def get_pattern(nets, hyp=False):
     return patterns
 
 
-def compare_patterns(sup_nets, hyp_nets):
+def compare_patterns(sup_nets: set[str], hyp_nets: set[str]) -> bool:
     """
     The function iterates over the patterns in sup_nets and checks
     whether each pattern exists in hyp_nets. Since hyp_nets is a set,
     membership checking takes O(1) time on average.
-    :param sup_nets:
-    :param hyp_nets:
-    :return:
+    :param sup_nets: Set of supernet patterns
+    :param hyp_nets: Set of hypernet patterns
+    :return: Whether any supernet pattern has a corresponding hypernet pattern (bool)
     """
     return any(s_net in hyp_nets for s_net in sup_nets)
 
