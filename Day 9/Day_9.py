@@ -1,6 +1,34 @@
 """
 Possible solutions for Advent of Code 2016 Day 9
 https://adventofcode.com/2016/day/9
+
+Date: October 2026
+
+
+Description
+    Given is 1 long string. The string contains multipliers and characters.
+    Multipliers format: (<a>x<b>) where a = range scope of multiplier
+    and b = the multiplication factor.
+
+    Part 1
+    Iterate through the string and count the number of characters.
+    A multiplier increases the weight of a character in its scope.
+    Any multiplier within the scope of a multiplier, is ignored.
+
+    Part 2
+    Similar to part 1, except multipliers within the scope of a multiplier
+    does count. If any multiplier b is within the scope of multiplier a,
+    then multiplier b is multiplied by multiplier a.
+
+Time complexity
+    load_data:  O(n)
+    solve_part_1:  O(n)
+    solve_part_2:  O(n^2)
+
+    Where n is the length of the string
+
+Possible improvements
+
 """
 
 
