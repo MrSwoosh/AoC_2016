@@ -9,6 +9,14 @@ Description
 
 
 Time complexity
+    load_data():        O(n * m)
+    create_matrix():    O(m * n)
+    solve_part_1():     O(n)
+    draw_square():      O(m)
+    shift_row():
+    shift_column():
+    lit_count():
+    solve_part_2():
 
 
 Possible improvements
@@ -17,7 +25,7 @@ Possible improvements
 """
 
 
-def load_data():
+def load_data() -> list[str]:
     """
     Retrieves data from file
     :return: List with string elements
@@ -27,10 +35,14 @@ def load_data():
 
 
 def create_matrix() -> list[str]:
+    """
+    Creates matrix.
+    :return: Matrix (list of strings)
+    """
     return ['.' * 50 for x in range (6)]
 
 
-def solve_part_1(instructions, matrix_1) -> int:
+def solve_part_1(instructions: list[str], matrix_1: list[str]) -> list[str]:
 
     for instruction in instructions:
         instruction_type, *instruction_parameters = instruction.split(" ")
@@ -49,17 +61,16 @@ def solve_part_1(instructions, matrix_1) -> int:
                         shifts = int(instruction_parameters[-1])
                         matrix_1 = shift_column(matrix_1, column, shifts)
 
+    return matrix_1
 
-    return lit_count(matrix_1)
 
-
-def draw_square(original_matrix, square_x, square_y):
+def draw_square(original_matrix: list[str], square_x: int, square_y: int) -> list[str]:
     for y in range(square_y):
         original_matrix[y] = '#' * square_x + original_matrix[y][square_x:]
     return original_matrix
 
 
-def shift_row(original_matrix, row_number, num_shifts):
+def shift_row(original_matrix: list[str], row_number: int, num_shifts: int) -> list[str]:
     to_shift = original_matrix[row_number][len(original_matrix[row_number]) - num_shifts: ]
     remaining = original_matrix[row_number][: len(original_matrix[row_number]) - num_shifts]
     original_matrix[row_number] = to_shift + remaining
@@ -67,7 +78,7 @@ def shift_row(original_matrix, row_number, num_shifts):
     return original_matrix
 
 
-def shift_column(original_matrix, column_number, num_shifts):
+def shift_column(original_matrix: list[str], column_number: int, num_shifts: int) -> list[str]:
     rotated_matrix = []
 
     for x in range(len(original_matrix[0])-1, -1, -1):
@@ -92,19 +103,29 @@ def shift_column(original_matrix, column_number, num_shifts):
     return original_matrix
 
 
-def lit_count(final_matrix) -> int:
+def lit_count(final_matrix: list[str]) -> int:
     lit_pixels = 0
     for row in final_matrix:
         lit_pixels += row.count('#')
     return lit_pixels
 
 
+def solve_part_2(matrix_2: list[str]) -> None:
+    matrix_to_print = []
+    for i in range (len(matrix_2)):
+        matrix_to_print.append(matrix_2[i].replace('.', ' '))
+
+    for row in matrix_to_print:
+        print(row)
+
+
+
 if __name__ == '__main__':
     data = load_data()
     matrix = create_matrix()
 
-    solution_1 = solve_part_1(data, matrix)
-    print(f'Answer to part 1: {solution_1}')
+    matrix = solve_part_1(data, matrix)
+    print(f'Answer to part 1: {lit_count(matrix)}')
 
-
-
+    print('Answer to part 2:')
+    solve_part_2(matrix)
