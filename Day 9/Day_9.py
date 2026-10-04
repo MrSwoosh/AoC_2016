@@ -62,5 +62,5 @@ if __name__ == "__main__":
     print(f"Answer to part 1: {result_1}")
 
     result_2 = solve_part_2(data)
-    print(f"Answer to part 1: {result_2}")
+    print(f"Answer to part 2: {result_2}")
 
