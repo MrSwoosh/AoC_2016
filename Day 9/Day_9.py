@@ -52,7 +52,37 @@ def solve_part_1(line: str) -> int:
 
 
 def solve_part_2(line: str) -> int:
-    pass
+    """
+    For part 2, sub multipliers do count as multipliers. Meaning there are subcalculations needed.
+    Works similar to solve_part_1, but adjusted to use recursion for subcalculations.
+    :param line: String for iteration
+    :return: Simulated decompression file size (int)
+    """
+    file_size = 0
+
+    counter = 0
+    while counter < len(line):
+        if line[counter] == "(":
+            multiplier = ''
+
+            sub_counter = counter + 1
+            while True:
+                if line[sub_counter] == ")":
+                    multiplier = line[counter + 1:sub_counter]
+                    sub_counter += 1
+                    break
+                sub_counter += 1
+
+            a, b = multiplier.split('x')
+
+            file_size += solve_part_2(line[sub_counter:sub_counter + int(a)]) * int(b)
+            counter = sub_counter + int(a)
+
+        else:
+            counter += 1
+            file_size += 1
+
+    return file_size
 
 
 if __name__ == "__main__":
